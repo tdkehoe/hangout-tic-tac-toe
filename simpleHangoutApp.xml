@@ -69,7 +69,7 @@
 	</table>
 
 <script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
-<h3>Simple Hangout App</h3>
+<h3>Hangout Tic Tac Toe App</h3>
 <p>
 <input class="button" type="button" value="Show participants!" id="showParticipants"
     style="visibility:hidden;"
@@ -192,10 +192,23 @@ var playerO = function () {
   if (counter === 9) {alert("Cat's game."); }
 };
 
+gapi.hangout.onApiReady.add(function(eventObj) {
+	gapi.hangout.data.submitDelta( {
+		'sq1a': '',
+		'sq1b': '',
+		'sq1c': '',
+		'sq2a': '',
+		'sq2b': '',
+		'sq2c': '',
+		'sq3a': '',
+		'sq3b': '',
+		'sq3c': ''
+	} );
+});
+
 // Square 1A
 document.getElementById("sq1a").addEventListener('click', function () {
   if (counter % 2 === 0 && sq1a.innerHTML === '') { // if counter is even
-    sq1a.innerHTML = 'x';
     row1x++;
     columnAx++;
     diagonal1x++;
@@ -203,7 +216,6 @@ document.getElementById("sq1a").addEventListener('click', function () {
     playerX();
 		gapi.hangout.data.submitDelta( {'sq1a': 'x'} );
   } else if (sq1a.innerHTML === '') { // if counter is odd
-    sq1a.innerHTML = 'o';
     row1o++;
     columnAo++;
     diagonal1o++;
@@ -215,154 +227,184 @@ document.getElementById("sq1a").addEventListener('click', function () {
 
 document.getElementById("sq1b").addEventListener('click', function () {
   if (counter % 2 === 0 && sq1b.innerHTML === '') { // if counter is even
-    sq1b.innerHTML = 'x';
     row1x++;
     columnBx++;
     counter++;
     playerX();
+		gapi.hangout.data.submitDelta( {'sq1b': 'x'} );
   } else if (sq1b.innerHTML === '') { // if counter is odd
-    sq1b.innerHTML = 'o';
     row1o++;
     columnBo++;
     counter++;
     playerO();
+		gapi.hangout.data.submitDelta( {'sq1b': 'o'} );
   }
 });
 
 document.getElementById("sq1c").addEventListener('click', function () {
   if (counter % 2 === 0 && sq1c.innerHTML === '') { // if counter is even
-    sq1c.innerHTML = 'x';
     row1x++;
     columnCx++;
     diagonal2x++;
     counter++;
     playerX();
+		gapi.hangout.data.submitDelta( {'sq1c': 'x'} );
   } else if (sq1c.innerHTML === '') { // if counter is odd
-    sq1c.innerHTML = 'o';
     row1o++;
     columnCo++;
     diagonal2o++;
     counter++;
     playerO();
+		gapi.hangout.data.submitDelta( {'sq1c': 'o'} );
   }
 });
 
 document.getElementById("sq2a").addEventListener('click', function () {
   if (counter % 2 === 0 && sq2a.innerHTML === '') { // if counter is even
-    sq2a.innerHTML = 'x';
     row2x++;
     columnAx++;
     counter++;
     playerX();
+		gapi.hangout.data.submitDelta( {'sq2a': 'x'} );
   } else if (sq2a.innerHTML === '') { // if counter is odd
-    sq2a.innerHTML = 'o';
     row2o++;
     columnAo++;
     counter++;
     playerO();
+		gapi.hangout.data.submitDelta( {'sq2a': 'o'} );
   }
 });
 
 document.getElementById("sq2b").addEventListener('click', function () {
   if (counter % 2 === 0 && sq2b.innerHTML === '') { // if counter is even
-    sq2b.innerHTML = 'x';
     row2x++;
     columnBx++;
     diagonal1x++;
     diagonal2x++;
     counter++;
     playerX();
+		gapi.hangout.data.submitDelta( {'sq2b': 'x'} );
   } else if (sq2b.innerHTML === '') { // if counter is odd
-    sq2b.innerHTML = 'o';
     row2o++;
     columnBo++;
     diagonal1o++;
     diagonal2o++;
     counter++;
     playerO();
+		gapi.hangout.data.submitDelta( {'sq2b': 'o'} );
   }
 });
 
 document.getElementById("sq2c").addEventListener('click', function () {
   if (counter % 2 === 0 && sq2c.innerHTML === '') { // if counter is even
-    sq2c.innerHTML = 'x';
     row2x++;
     columnCx++;
     counter++;
     playerX();
+		gapi.hangout.data.submitDelta( {'sq2c': 'x'} );
   } else if (sq2c.innerHTML === '') { // if counter is odd
-    sq2c.innerHTML = 'o';
     row2o++;
     columnCo++;
     counter++;
     playerO();
+		gapi.hangout.data.submitDelta( {'sq2c': 'o'} );
   }
 });
 
 document.getElementById("sq3a").addEventListener('click', function () {
-  if (counter % 2 === 0 && sq3a.innerHTML === '') { // if counter is even
-    sq3a.innerHTML = 'x';
+  if (counter % 2 === 0 && sq3a.innerHTML === '') { // if counter is even;
     row3x++;
     columnAx++;
     diagonal2x++;
     counter++;
     playerX();
+		gapi.hangout.data.submitDelta( {'sq3a': 'x'} );
   } else if (sq3a.innerHTML === '') { // if counter is odd
-    sq3a.innerHTML = 'o';
     row3o++;
     columnAo++;
     diagonal2o++;
     counter++;
     playerO();
+		gapi.hangout.data.submitDelta( {'sq3a': 'o'} );
   }
 });
 
 document.getElementById("sq3b").addEventListener('click', function () {
   if (counter % 2 === 0 && sq3b.innerHTML === '') { // if counter is even
-    sq3b.innerHTML = 'x';
     row3x++;
     columnBx++;
     counter++;
     playerX();
+		gapi.hangout.data.submitDelta( {'sq3b': 'x'} );
   } else if (sq3b.innerHTML === '') { // if counter is odd
-    sq3b.innerHTML = 'o';
     row3o++;
     columnBo++;
     counter++;
     playerO();
+		gapi.hangout.data.submitDelta( {'sq3b': 'o'} );
   }
 });
 
 document.getElementById("sq3c").addEventListener('click', function () {
   if (counter % 2 === 0 && sq3c.innerHTML === '') { // if counter is even
-    sq3c.innerHTML = 'x';
     row3x++;
     columnCx++;
     diagonal1x++;
     counter++;
     playerX();
-
+		gapi.hangout.data.submitDelta( {'sq3c': 'x'} );
   } else if (sq3c.innerHTML === '') { // if counter is odd
-    sq3c.innerHTML = 'o';
     row3o++;
     columnCo++;
     diagonal1o++;
     counter++;
     playerO();
+		gapi.hangout.data.submitDelta( {'sq3c': 'o'} );
   }
 });
 
 console.log(gapi.hangout.data);
 
-gapi.hangout.data.onStateChanged.add( function(event) {console.log("Zoo!")} );
+gapi.hangout.data.onStateChanged.add( function(event) {
+	console.log("Zoo!")
+	var state = gapi.hangout.data.getState();
+	console.log("SQR 1A: " + state.sq1a);
+	sq1a.innerHTML = state.sq1a;
+	console.log("SQR 1B: " + state.sq1b);
+	sq1b.innerHTML = state.sq1b;
+	console.log("SQR 1C: " + state.sq1c);
+	sq1c.innerHTML = state.sq1c;
+  console.log("SQR 2A: " + state.sq2a);
+	sq2a.innerHTML = state.sq2a;
+	console.log("SQR 2B: " + state.sq2b);
+	sq2b.innerHTML = state.sq2b;
+	console.log("SQR 2C: " + state.sq2c);
+	sq2c.innerHTML = state.sq2c;
+	console.log("SQR 3A: " + state.sq3a);
+	sq3a.innerHTML = state.sq3a;
+	console.log("SQR 3B: " + state.sq3b);
+	sq3b.innerHTML = state.sq3b;
+  console.log("SQR 3C: " + state.sq3c);
+	sq3c.innerHTML = state.sq3c;
+} );
 
 gapi.hangout.onApiReady.add(function(eventObj) {
 	var state = gapi.hangout.data.getState();
-	console.log(state.sq1a);
+	console.log("SQR 1A: " + state.sq1a);
+	console.log("SQR 1B: " + state.sq1b);
+	console.log("SQR 1C: " + state.sq1c);
+  console.log("SQR 2A: " + state.sq2a);
+	console.log("SQR 2B: " + state.sq2b);
+	console.log("SQR 2C: " + state.sq2c);
+	console.log("SQR 3A: " + state.sq3a);
+	console.log("SQR 3B: " + state.sq3b);
+  console.log("SQR 3C: " + state.sq3c);
 
 	// Equivalent ways to get the value:
 	console.log(state['sq1a']);
 	console.log(gapi.hangout.data.getValue('sq1a'));
+	console.log(state['sq1b']);
+	console.log(gapi.hangout.data.getValue('sq1b'));
 });
 
 </script>
