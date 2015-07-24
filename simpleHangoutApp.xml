@@ -18,10 +18,21 @@
 		<Require feature="locked-domain" />
 	</ModulePrefs>
 	<Content type="html"><![CDATA[
-
 <html>
 <style type="text/css">
 <!--
+	td {
+	  border: 2px solid black;
+	  font-size: 48pt;
+	  text-align: center;
+	}
+
+	.square {
+	  /*padding: 10px;*/
+	  width: 100px;
+	  height: 100px;
+	}
+	
 .button {
   border-radius: 3px;
   -moz-border-radius: 3px;
@@ -29,53 +40,59 @@
   background: -moz-linear-gradient(top, #fff, #ddd);
   border: 1px solid #bbb;
 }
-
 .button:active {
 	background: -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#333));
 	background: -moz-linear-gradient(bottom, #ddd, #aaa); }
-
 -->
 </style>
 <body>
 
+	<table>
+		<tr>
+			<td id="sq1a" class="square"></td>
+			<td id="sq1b" class="square"></td>
+			<td id="sq1c" class="square"></td>
+		</tr>
+
+		<tr>
+			<td id="sq2a" class="square"></td>
+			<td id="sq2b" class="square"></td>
+			<td id="sq2c" class="square"></td>
+		</tr>
+
+		<tr>
+			<td id="sq3a" class="square"></td>
+			<td id="sq3b" class="square"></td>
+			<td id="sq3c" class="square"></td>
+		</tr>
+
+	</table>
+
 <script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
-
 <h3>Simple Hangout App</h3>
-
 <p>
 <input class="button" type="button" value="Show participants!" id="showParticipants"
     style="visibility:hidden;"
     onClick="showParticipants()"/>
 </p>
-
 <div id="participantsDiv"></div>
-
 <hr>
-
 <p><a href="http://developers.google.com/+/hangouts/getting-started">Read the docs</a> to learn more about developing hangouts!</a></p>
-
 <script>
 function showParticipants() {
   var participants = gapi.hangout.getParticipants();
-
   var retVal = '<p>Participants: </p><ul>';
-
   for (var index in participants) {
     var participant = participants[index];
-
     if (!participant.person) {
       retVal += '<li>A participant not running this app</li>';
     }
     retVal += '<li>' + participant.person.displayName + '</li>';
   }
-
   retVal += '</ul>';
-
   var div = document.getElementById('participantsDiv');
-
   div.innerHTML = retVal;
 }
-
 function init() {
   // When API is ready...
   gapi.hangout.onApiReady.add(
@@ -86,13 +103,9 @@ function init() {
         }
       });
 }
-
 // Wait for gadget to load.
 gadgets.util.registerOnLoadHandler(init);
 </script>
-
-
-
 </body>
 ]]>
 </Content>
