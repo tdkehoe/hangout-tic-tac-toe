@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+<!-- Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License
+-->
+	<ModulePrefs title="Hangouts Tic Tac Toe">
+		<Require feature="rpc" />
+		<Require feature="views" />
+		<Require feature="locked-domain" />
+	</ModulePrefs>
+	<Content type="html"><![CDATA[
+<html>
+<style type="text/css">
+<!--
+	td {
+	  border: 2px solid black;
+	  font-size: 48pt;
+	  text-align: center;
+	}
+
+	.square {
+	  /*padding: 10px;*/
+	  width: 100px;
+	  height: 100px;
+	}
+
+.button {
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+  background: -moz-linear-gradient(top, #fff, #ddd);
+  border: 1px solid #bbb;
+}
+.button:active {
+	background: -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#333));
+	background: -moz-linear-gradient(bottom, #ddd, #aaa); }
+-->
+</style>
+<body>
+
+	<table>
+		<tr>
+			<td id="sq1a" class="square"></td>
+			<td id="sq1b" class="square"></td>
+			<td id="sq1c" class="square"></td>
+		</tr>
+
+		<tr>
+			<td id="sq2a" class="square"></td>
+			<td id="sq2b" class="square"></td>
+			<td id="sq2c" class="square"></td>
+		</tr>
+
+		<tr>
+			<td id="sq3a" class="square"></td>
+			<td id="sq3b" class="square"></td>
+			<td id="sq3c" class="square"></td>
+		</tr>
+
+	</table>
+
+  <p>Reload the app until the board is clear.</p>
+
+<script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+<h3>Hangouts Tic Tac Toe</h3>
+<p>
+<input class="button" type="button" value="Show participants!" id="showParticipants"
+    style="visibility:hidden;"
+    onClick="showParticipants()"/>
+</p>
+<div id="participantsDiv"></div>
+<hr>
+<div id="myLog"></div>
+<hr>
+<p><a href="http://developers.google.com/+/hangouts/getting-started">Read the docs</a> to learn more about developing hangouts!</a></p>
+
+<script>
+function showParticipants() {
+  var participants = gapi.hangout.getParticipants();
+  var retVal = '<p>Participants: </p><ul>';
+  for (var index in participants) {
+    var participant = participants[index];
+    if (!participant.person) {
+      retVal += '<li>A participant not running this app</li>';
+    }
+    retVal += '<li>' + participant.person.displayName + '</li>';
+  }
+  retVal += '</ul>';
+  var div = document.getElementById('participantsDiv');
+  div.innerHTML = retVal;
+}
+function init() {
+  // When API is ready...
+  gapi.hangout.onApiReady.add(
+      function(eventObj) {
+        if (eventObj.isApiReady) {
+          document.getElementById('showParticipants')
+            .style.visibility = 'visible';
+        }
+      });
+}
+// Wait for gadget to load.
+gadgets.util.registerOnLoadHandler(init);
+
+function showParticipants() {
+  var participants = gapi.hangout.getParticipants();
+  var retVal = '<p>Participants: </p><ul>';
+  for (var index in participants) {
+    var participant = participants[index];
+    if (!participant.person) {
+      retVal += '<li>A participant not running this app</li>';
+    }
+    retVal += '<li>' + participant.person.displayName + '</li>';
+  }
+  retVal += '</ul>';
+
+  var div = document.getElementById('participantsDiv');
+  div.innerHTML = retVal;
+
+}
+function init() {
+  // When API is ready...
+  gapi.hangout.onApiReady.add(
+      function(eventObj) {
+        if (eventObj.isApiReady) {
+          document.getElementById('showParticipants')
+            .style.visibility = 'visible';
+        }
+      });
+}
+// Wait for gadget to load.
+gadgets.util.registerOnLoadHandler(init);
+
+// TIC-TAC-TOE
+
+gapi.hangout.onApiReady.add(function(eventObj) {
+
+  // Get the shared data object
+  var state = gapi.hangout.data.getState();
+
+  // Initialize local variables
+  state.row1x = 0;
+  state.row2x = 0;
+  state.row3x = 0;
+  state.columnAx = 0;
+  state.columnBx = 0;
+  state.columnCx = 0;
+  state.diagonal1x = 0;
+  state.diagonal2x = 0;
+  state.row1o = 0;
+  state.row2o = 0;
+  state.row3o = 0;
+  state.columnAo = 0;
+  state.columnBo = 0;
+  state.columnCo = 0;
+  state.diagonal1o = 0;
+  state.diagonal2o = 0;
+  state.counter = 0;
+  state.sq1a = '';
+  state.sq2a = '';
+  state.sq3a = '';
+  state.sq1b = '';
+  state.sq2b = '';
+  state.sq3b = '';
+  state.sq1c = '';
+  state.sq2c = '';
+  state.sq3c = '';
+
+/*
+  // Increment a variable. Gets value from shared data object, converts string to number, increments number, converts to string, update shared data object.
+  var increment = function(key){
+    console.log(key);
+    console.log(state.key); // state.key = counter; how to make key a variable?
+    i = state.key;
+    console.log(i, typeof i);
+    i = +i;
+    console.log(i, typeof i);
+    i = i + 1;
+    console.log(i, typeof i);
+    i = i.toString();
+    console.log(i, typeof i);
+    gapi.hangout.data.submitDelta({key, i});
+    console.log(key + " incremented local variable: " + state.key);
+  }
+*/
+
+  // Look for three X's in a row
+  var playerX = function () {
+    if (state.row1x === '3' || state.row2x === '3' || state.row3x === '3' || state.columnAx === '3' || state.columnBx === '3' || state.columnCx === '3' || state.diagonal1x === '3' || state.diagonal2x === '3') {alert("X wins!"); }
+    if (state.counter === '9') {alert("Cat's game."); }
+  };
+
+  // Look for three O's in a row
+  var playerO = function () {
+    if (state.row1o === '3' || state.row2o === '3' || state.row3o === '3' || state.columnAo === '3' || state.columnBo === '3' || state.columnCo === '3' || state.diagonal1o === '3' || state.diagonal2o === '3') {alert("O wins!"); }
+    if (state.counter === '9') {alert("Cat's game."); }
+  };
+
+// LISTEN FOR CLICKS
+// THEN UPDATE VALUES IN SHARED DATA OBJECT
+
+  // Square 1A
+  document.getElementById("sq1a").addEventListener('click', function () { // Listen for clicked square
+    console.log("SQ1A played");
+    if (state.counter % 2 === 0 && sq1a.innerHTML === '') { // if counter is even
+      sq1a.innerHTML = 'x'; // draw X in SQR1A
+
+      // Increment Row 1
+      i = state.row1x;
+      i = +i;
+      i = i + 1;
+      state.row1x = i.toString();
+
+      // Increment Column A
+      i = state.columnAx;
+      i = +i;
+      i = i + 1;
+      state.columnAx = i.toString();
+
+      // Increment Diagional 1
+      i = state.diagonal1x;
+      i = +i;
+      i = i + 1;
+      state.diagonal1x = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq1a': 'x',
+        'row1x': state.row1x,
+        'columnAx': state.columnAx,
+        'diagonal1x': state.diagonal1x,
+        'counter': state.counter
+      });
+
+    } else if (sq1a.innerHTML === '') { // if counter is odd
+      sq1a.innerHTML = 'o'; // draw O in SQR1A
+
+      // Increment Row 1
+      i = state.row1o;
+      i = +i;
+      i = i + 1;
+      state.row1o = i.toString();
+
+      // Increment Column A
+      i = state.columnAo;
+      i = +i;
+      i = i + 1;
+      state.columnAo = i.toString();
+
+      // Increment Diagional 1
+      i = state.diagonal1o;
+      i = +i;
+      i = i + 1;
+      state.diagonal1o = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq1a': 'o',
+        'row1o': state.row1o,
+        'columnAo': state.columnAo,
+        'diagonal1o': state.diagonal1o,
+        'counter': state.counter
+      });
+
+    }
+  });
+
+  // Square 1B
+  document.getElementById("sq1b").addEventListener('click', function () {
+    console.log("SQ1B played");
+    if (state.counter % 2 === 0 && sq1b.innerHTML === '') { // if counter is even
+      sq1b.innerHTML = 'x'; // draw X in SQR1B
+
+      // Increment Row 1
+      i = state.row1x;
+      i = +i;
+      i = i + 1;
+      state.row1x = i.toString();
+
+      // Increment Column B
+      i = state.columnBx;
+      i = +i;
+      i = i + 1;
+      state.columnBx = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq1b': 'x',
+        'row1x': state.row1x,
+        'columnBx': state.columnBx,
+        'counter': state.counter
+      });
+
+    } else if (sq1b.innerHTML === '') { // if counter is odd
+      sq1b.innerHTML = 'o'; // draw X in SQR1B
+
+      // Increment Row 1
+      i = state.row1o;
+      i = +i;
+      i = i + 1;
+      state.row1o = i.toString();
+
+      // Increment Column B
+      i = state.columnBo;
+      i = +i;
+      i = i + 1;
+      state.columnBo = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq1b': 'o',
+        'row1o': state.row1o,
+        'columnBo': state.columnBo,
+        'counter': state.counter
+      });
+
+    }
+  });
+
+  // Square 1C
+  document.getElementById("sq1c").addEventListener('click', function () {
+    console.log("SQ1C played");
+    if (state.counter % 2 === 0 && sq1c.innerHTML === '') { // if counter is even
+      sq1c.innerHTML = 'x'; // draw X in SQR1C
+
+      // Increment Row 1
+      i = state.row1x;
+      i = +i;
+      i = i + 1;
+      state.row1x = i.toString();
+
+      // Increment Column C
+      i = state.columnCx;
+      i = +i;
+      i = i + 1;
+      state.columnCx = i.toString();
+
+      // Increment Diagional 2
+      i = state.diagonal2x;
+      i = +i;
+      i = i + 1;
+      state.diagonal2x = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq1c': 'x',
+        'row1x': state.row1x,
+        'columnCx': state.columnCx,
+        'diagonal2x': state.diagonal2x,
+        'counter': state.counter
+      });
+
+    } else if (sq1c.innerHTML === '') { // if counter is odd
+      sq1c.innerHTML = 'o'; // draw O in SQR1C
+
+      // Increment Row 1
+      i = state.row1o;
+      i = +i;
+      i = i + 1;
+      state.row1o = i.toString();
+
+      // Increment Column C
+      i = state.columnCo;
+      i = +i;
+      i = i + 1;
+      state.columnCo = i.toString();
+
+      // Increment Diagional 2
+      i = state.diagonal2o;
+      i = +i;
+      i = i + 1;
+      state.diagonal2o = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq1c': 'o',
+        'row1o': state.row1o,
+        'columnCo': state.columnCo,
+        'diagonal2o': state.diagonal2o,
+        'counter': state.counter
+      });
+
+    }
+  });
+
+  // Square 2A
+  document.getElementById("sq2a").addEventListener('click', function () {
+    console.log("SQ2A played");
+    if (state.counter % 2 === 0 && sq2a.innerHTML === '') { // if counter is even
+      sq2a.innerHTML = 'x'; // draw X in SQR2A
+
+      // Increment Row 2
+      i = state.row2x;
+      i = +i;
+      i = i + 1;
+      state.row2x = i.toString();
+
+      // Increment Column A
+      i = state.columnAx;
+      i = +i;
+      i = i + 1;
+      state.columnAx = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq2a': 'x',
+        'row2x': state.row1x,
+        'columnAx': state.columnAx,
+        'counter': state.counter
+      });
+
+    } else if (sq2a.innerHTML === '') { // if counter is odd
+      sq2a.innerHTML = 'o'; // draw O in SQR2A
+
+      // Increment Row 2
+      i = state.row2o;
+      i = +i;
+      i = i + 1;
+      state.row2o = i.toString();
+
+      // Increment Column A
+      i = state.columnAo;
+      i = +i;
+      i = i + 1;
+      state.columnAo = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq2a': 'o',
+        'row2o': state.row1o,
+        'columnAo': state.columnAo,
+        'counter': state.counter
+      });
+    }
+  });
+
+  // Square 2B
+  document.getElementById("sq2b").addEventListener('click', function () {
+    console.log("SQ2B played");
+    if (state.counter % 2 === 0 && sq2b.innerHTML === '') { // if counter is even
+      sq2b.innerHTML = 'x'; // draw X in SQR2B
+
+      // Increment Row 2
+      i = state.row2x;
+      i = +i;
+      i = i + 1;
+      state.row2x = i.toString();
+
+      // Increment Column B
+      i = state.columnBx;
+      i = +i;
+      i = i + 1;
+      state.columnBx = i.toString();
+
+      // Increment Diagional 1
+      i = state.diagonal1x;
+      i = +i;
+      i = i + 1;
+      state.diagonal1x = i.toString();
+
+      // Increment Diagional 2
+      i = state.diagonal2x;
+      i = +i;
+      i = i + 1;
+      state.diagonal2x = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq2b': 'x',
+        'row2x': state.row2x,
+        'columnBx': state.columnBx,
+        'diagonal1x': state.diagonal1x,
+        'diagonal2x': state.diagonal2x,
+        'counter': state.counter
+      });
+
+    } else if (sq2b.innerHTML === '') { // if counter is odd
+      sq2b.innerHTML = 'o'; // draw O in SQR2B
+
+      // Increment Row 2
+      i = state.row2o;
+      i = +i;
+      i = i + 1;
+      state.row2o = i.toString();
+
+      // Increment Column B
+      i = state.columnBo;
+      i = +i;
+      i = i + 1;
+      state.columnBo = i.toString();
+
+      // Increment Diagional 1
+      i = state.diagonal1o;
+      i = +i;
+      i = i + 1;
+      state.diagonal1o = i.toString();
+
+      // Increment Diagional 2
+      i = state.diagonal2o;
+      i = +i;
+      i = i + 1;
+      state.diagonal2o = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq2b': 'o',
+        'row2o': state.row2o,
+        'columnBo': state.columnBo,
+        'diagonal1o': state.diagonal1o,
+        'diagonal2o': state.diagonal2o,
+        'counter': state.counter
+      });
+
+    }
+  });
+
+  // Square 2C
+  document.getElementById("sq2c").addEventListener('click', function () {
+    console.log("SQ2C played");
+    if (state.counter % 2 === 0 && sq2c.innerHTML === '') { // if counter is even
+      sq2c.innerHTML = 'x'; // draw X in SQR2C
+
+      // Increment Row 2
+      i = state.row2x;
+      i = +i;
+      i = i + 1;
+      state.row2x = i.toString();
+
+      // Increment Column C
+      i = state.columnCx;
+      i = +i;
+      i = i + 1;
+      state.columnCx = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq2c': 'x',
+        'row2x': state.row2x,
+        'columnCx': state.columnCx,
+        'counter': state.counter
+      });
+
+    } else if (sq2c.innerHTML === '') { // if counter is odd
+      sq2c.innerHTML = 'o'; // draw O in SQR2C
+
+      // Increment Row 2
+      i = state.row2o;
+      i = +i;
+      i = i + 1;
+      state.row2o = i.toString();
+
+      // Increment Column C
+      i = state.columnCo;
+      i = +i;
+      i = i + 1;
+      state.columnCo = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq2c': 'o',
+        'row2o': state.row2o,
+        'columnCo': state.columnCo,
+        'counter': state.counter
+      });
+    }
+  });
+
+  // Square 3A
+  document.getElementById("sq3a").addEventListener('click', function () {
+    console.log("SQ3A played");
+    if (state.counter % 2 === 0 && sq3a.innerHTML === '') { // if counter is even;
+      sq3a.innerHTML = 'x'; // draw X in SQR3A
+
+      // Increment Row 3
+      i = state.row3x;
+      i = +i;
+      i = i + 1;
+      state.row3x = i.toString();
+
+      // Increment Column A
+      i = state.columnAx;
+      i = +i;
+      i = i + 1;
+      state.columnAx = i.toString();
+
+      // Increment Diagonal 2
+      i = state.diagonal2x;
+      i = +i;
+      i = i + 1;
+      state.diagonal2x = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq3a': 'x',
+        'row3x': state.row3x,
+        'columnAx': state.columnAx,
+        'diagonal2x': state.diagonal2x,
+        'counter': state.counter
+      });
+
+    } else if (sq3a.innerHTML === '') { // if counter is odd
+      sq3a.innerHTML = 'o'; // draw O in SQR3A
+
+      // Increment Row 3
+      i = state.row3o;
+      i = +i;
+      i = i + 1;
+      state.row3o = i.toString();
+
+      // Increment Column A
+      i = state.columnAo;
+      i = +i;
+      i = i + 1;
+      state.columnAo = i.toString();
+
+      // Increment Diagonal 2
+      i = state.diagonal2o;
+      i = +i;
+      i = i + 1;
+      state.diagonal2o = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq3a': 'o',
+        'row3o': state.row3o,
+        'columnAo': state.columnAo,
+        'diagonal2o': state.diagonal2o,
+        'counter': state.counter
+      });
+
+    }
+  });
+
+  // Square 3B
+  document.getElementById("sq3b").addEventListener('click', function () {
+    console.log("SQ3B played");
+    if (state.counter % 2 === 0 && sq3b.innerHTML === '') { // if counter is even
+      sq3b.innerHTML = 'x'; // draw X in SQR3B
+
+      // Increment Row 3
+      i = state.row3x;
+      i = +i;
+      i = i + 1;
+      state.row3x = i.toString();
+
+      // Increment Column B
+      i = state.columnBx;
+      i = +i;
+      i = i + 1;
+      state.columnBx = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq3b': 'x',
+        'row3x': state.row3x,
+        'columnBx': state.columnBx,
+        'counter': state.counter
+      });
+
+    } else if (sq3b.innerHTML === '') { // if counter is odd
+      sq3b.innerHTML = 'o'; // draw O in SQR3B
+
+      // Increment Row 3
+      i = state.row3o;
+      i = +i;
+      i = i + 1;
+      state.row3o = i.toString();
+
+      // Increment Column B
+      i = state.columnBo;
+      i = +i;
+      i = i + 1;
+      state.columnBo = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq3b': 'o',
+        'row3o': state.row3o,
+        'columnBo': state.columnBo,
+        'counter': state.counter
+      });
+    }
+  });
+
+  // Square 3C
+  document.getElementById("sq3c").addEventListener('click', function () {
+    console.log("SQ3A played");
+    if (state.counter % 2 === 0 && sq3c.innerHTML === '') { // if counter is even
+      sq3c.innerHTML = 'x'; // draw X in SQR3C
+
+      // Increment Row 3
+      i = state.row3x;
+      i = +i;
+      i = i + 1;
+      state.row3x = i.toString();
+
+      // Increment Column C
+      i = state.columnCx;
+      i = +i;
+      i = i + 1;
+      state.columnCx = i.toString();
+
+      // Increment Diagonal 1
+      i = state.diagonal1x;
+      i = +i;
+      i = i + 1;
+      state.diagonal1x = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq3c': 'x',
+        'row3x': state.row3x,
+        'columnCx': state.columnCx,
+        'diagonal1x': state.diagonal1x,
+        'counter': state.counter
+      });
+
+    } else if (sq3c.innerHTML === '') { // if counter is odd
+      gapi.hangout.data.submitDelta( {'sq3c': 'o'} );
+
+      sq3c.innerHTML = 'o'; // draw O in SQR3C
+
+      // Increment Row 3
+      i = state.row3o;
+      i = +i;
+      i = i + 1;
+      state.row3o = i.toString();
+
+      // Increment Column C
+      i = state.columnCo;
+      i = +i;
+      i = i + 1;
+      state.columnCo = i.toString();
+
+      // Increment Diagonal 1
+      i = state.diagonal1o;
+      i = +i;
+      i = i + 1;
+      state.diagonal1o = i.toString();
+
+      // Increment counter
+      i = state.counter;
+      i = +i;
+      i = i + 1;
+      state.counter = i.toString();
+
+      gapi.hangout.data.submitDelta({
+        'sq3c': 'o',
+        'row3o': state.row3o,
+        'columnCo': state.columnC,
+        'diagonal1o': state.diagonal1o,
+        'counter': state.counter
+      });
+    }
+  });
+
+  // LISTEN FOR UPDATED SHARED DATA OBJECT
+  gapi.hangout.data.onStateChanged.add( function(event) {
+    // GET UPDATED VALUES
+    gapi.hangout.data.getState();
+    console.log("State changed.")
+
+    console.log("SQR 1A: " + state.sq1a);
+    console.log("SQR 1B: " + state.sq1b);
+    console.log("SQR 1C: " + state.sq1c);
+    console.log("SQR 2A: " + state.sq2a);
+    console.log("SQR 2B: " + state.sq2b);
+    console.log("SQR 2C: " + state.sq2c);
+    console.log("SQR 3A: " + state.sq3a);
+    console.log("SQR 3B: " + state.sq3b);
+    console.log("SQR 3C: " + state.sq3c);
+
+    console.log("Row1x: " + state.row1x);
+    console.log("Row2x: " + state.row2x);
+    console.log("Row3x: " + state.row3x);
+    console.log("Column Ax: " + state.columnAx);
+    console.log("Column Bx: " + state.columnBx);
+    console.log("Column Cx: " + state.columnCx);
+    console.log("Diagonal 1x: " + state.diagonal1x);
+    console.log("Diagonal 2x: " + state.diagonal2x);
+
+    console.log("Row1o: " + state.row1o);
+    console.log("Row2o: " + state.row2o);
+    console.log("Row3o: " + state.row3o);
+    console.log("Column Ao: " + state.columnAo);
+    console.log("Column Bo: " + state.columnBo);
+    console.log("Column Co: " + state.columnCo);
+    console.log("Diagonal 1o: " + state.diagonal1o);
+    console.log("Diagonal 2o: " + state.diagonal2o);
+
+    console.log("Counter: " + state.counter);
+
+    // CHECK FOR WINNERS
+    playerX();
+    playerO();
+  } );
+
+  // EXECUTE CODE TO PASS TURN TO OTHER PLAYER
+
+  console.log("v0.7");
+
+}); // end tic-tac-toe script
+
+</script>
+</body>
+]]>
+</Content>
+</Module>

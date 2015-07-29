@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+	<ModulePrefs title="Counter Zero To One">
+		<Require feature="rpc" />
+		<Require feature="views" />
+		<Require feature="locked-domain" />
+	</ModulePrefs>
+	<Content type="html"><![CDATA[
+<html>
+<body>
+<script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+<h3>Counter Zero To One</h3>
+<script>
+
+  gapi.hangout.onApiReady.add(function(eventObj) {
+  	console.log("API ready.");
+
+		gapi.hangout.data.setValue('counter', '0');
+
+		gapi.hangout.data.onStateChanged.add(function(event) {
+			console.log(gapi.hangout.data.getValue('counter'));
+			gapi.hangout.data.setValue('counter', '1');
+		});
+
+	});
+
+</script>
+</body>
+]]>
+</Content>
+</Module>
