@@ -155,6 +155,23 @@ gapi.hangout.onApiReady.add(function(eventObj) {
   gapi.hangout.data.setValue('sq3b', '');
   gapi.hangout.data.setValue('sq3c', '');
 
+  gapi.hangout.data.clearValue('row1x');
+  gapi.hangout.data.clearValue('row2x');
+  gapi.hangout.data.clearValue('row3x');
+  gapi.hangout.data.clearValue('columnAx');
+  gapi.hangout.data.clearValue('columnBx');
+  gapi.hangout.data.clearValue('columnCx');
+  gapi.hangout.data.clearValue('diagonal1x');
+  gapi.hangout.data.clearValue('diagonal2x');
+  gapi.hangout.data.clearValue('row1o');
+  gapi.hangout.data.clearValue('row2o');
+  gapi.hangout.data.clearValue('row3o');
+  gapi.hangout.data.clearValue('columnAo');
+  gapi.hangout.data.clearValue('columnBo');
+  gapi.hangout.data.clearValue('columnCo');
+  gapi.hangout.data.clearValue('diagonal1o');
+  gapi.hangout.data.clearValue('diagonal2o');
+
   // Initialize local variables
   state.row1x = 0;
   state.row2x = 0;
@@ -204,14 +221,28 @@ gapi.hangout.onApiReady.add(function(eventObj) {
 
   // Look for three X's in a row
   var playerX = function () {
-    if (state.row1x === '3' || state.row2x === '3' || state.row3x === '3' || state.columnAx === '3' || state.columnBx === '3' || state.columnCx === '3' || state.diagonal1x === '3' || state.diagonal2x === '3') {alert("X wins!"); }
-    if (state.counter === '9') {alert("Cat's game."); }
+    if (gapi.hangout.data.getValue('row1x') === '3' ||
+        gapi.hangout.data.getValue('row2x') === '3' ||
+        gapi.hangout.data.getValue('row3x') === '3' ||
+        gapi.hangout.data.getValue('columnAx') === '3' ||
+        gapi.hangout.data.getValue('columnBx') === '3' ||
+        gapi.hangout.data.getValue('columnCx') === '3' ||
+        gapi.hangout.data.getValue('diagonal1x') === '3' ||
+        gapi.hangout.data.getValue('diagonal2x') === '3') {alert("X wins!"); }
+    if (gapi.hangout.data.getValue('counter') === '9') {alert("Cat's game."); }
   };
 
   // Look for three O's in a row
   var playerO = function () {
-    if (state.row1o === '3' || state.row2o === '3' || state.row3o === '3' || state.columnAo === '3' || state.columnBo === '3' || state.columnCo === '3' || state.diagonal1o === '3' || state.diagonal2o === '3') {alert("O wins!"); }
-    if (state.counter === '9') {alert("Cat's game."); }
+    if (gapi.hangout.data.getValue('row1o') === '3' ||
+    gapi.hangout.data.getValue('row2o') === '3' ||
+    gapi.hangout.data.getValue('row3o') === '3' ||
+    gapi.hangout.data.getValue('columnAo') === '3' ||
+    gapi.hangout.data.getValue('columnBo') === '3' ||
+    gapi.hangout.data.getValue('columnCo') === '3' ||
+    gapi.hangout.data.getValue('diagonal1o') === '3' ||
+    gapi.hangout.data.getValue('diagonal2o') === '3') {alert("O wins!"); }
+    if (gapi.hangout.data.getValue('counter') === '9') {alert("Cat's game."); }
   };
 
 // LISTEN FOR CLICKS
@@ -225,25 +256,25 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq1a = 'x';
 
       // Increment Row 1
-      i = state.row1x;
+      i = gapi.hangout.data.getValue('row1x');
       i = +i;
       i = i + 1;
       state.row1x = i.toString();
 
       // Increment Column A
-      i = state.columnAx;
+      i = gapi.hangout.data.getValue('columnAx');
       i = +i;
       i = i + 1;
       state.columnAx = i.toString();
 
       // Increment Diagional 1
-      i = state.diagonal1x;
+      i = gapi.hangout.data.getValue('diagonal1x');
       i = +i;
       i = i + 1;
       state.diagonal1x = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -926,7 +957,7 @@ gapi.hangout.onApiReady.add(function(eventObj) {
 
   // EXECUTE CODE TO PASS TURN TO OTHER PLAYER
 
-  console.log("v0.19");
+  console.log("v0.21");
 
 }); // end tic-tac-toe script
 
