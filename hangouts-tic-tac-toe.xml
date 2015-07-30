@@ -142,35 +142,38 @@ gadgets.util.registerOnLoadHandler(init);
 
 gapi.hangout.onApiReady.add(function(eventObj) {
 
+  // Initialize all values in the shared data object
+  gapi.hangout.data.submitDelta({
+    'row1x': '0',
+    'row2x': '0',
+    'row3x': '0',
+    'columnAx': '0',
+    'columnBx': '0',
+    'columnCx': '0',
+    'diagonal1x': '0',
+    'diagonal2x': '0',
+    'row1o': '0',
+    'row2o': '0',
+    'row3o': '0',
+    'columnAo': '0',
+    'columnBo': '0',
+    'columnCo': '0',
+    'diagonal1o': '0',
+    'diagonal2o': '0',
+    'counter': '0',
+		'sq1a': '',
+		'sq1b': '',
+		'sq1c': '',
+		'sq2a': '',
+		'sq2b': '',
+		'sq2c': '',
+		'sq3a': '',
+		'sq3b': '',
+		'sq3c': ''
+  });
+
   // Get the shared data object
   var state = gapi.hangout.data.getState();
-
-  gapi.hangout.data.setValue('sq1a', '');
-  gapi.hangout.data.setValue('sq1b', '');
-  gapi.hangout.data.setValue('sq1c', '');
-  gapi.hangout.data.setValue('sq2a', '');
-  gapi.hangout.data.setValue('sq2b', '');
-  gapi.hangout.data.setValue('sq2c', '');
-  gapi.hangout.data.setValue('sq3a', '');
-  gapi.hangout.data.setValue('sq3b', '');
-  gapi.hangout.data.setValue('sq3c', '');
-
-  gapi.hangout.data.clearValue('row1x');
-  gapi.hangout.data.clearValue('row2x');
-  gapi.hangout.data.clearValue('row3x');
-  gapi.hangout.data.clearValue('columnAx');
-  gapi.hangout.data.clearValue('columnBx');
-  gapi.hangout.data.clearValue('columnCx');
-  gapi.hangout.data.clearValue('diagonal1x');
-  gapi.hangout.data.clearValue('diagonal2x');
-  gapi.hangout.data.clearValue('row1o');
-  gapi.hangout.data.clearValue('row2o');
-  gapi.hangout.data.clearValue('row3o');
-  gapi.hangout.data.clearValue('columnAo');
-  gapi.hangout.data.clearValue('columnBo');
-  gapi.hangout.data.clearValue('columnCo');
-  gapi.hangout.data.clearValue('diagonal1o');
-  gapi.hangout.data.clearValue('diagonal2o');
 
   // Initialize local variables
   state.row1x = 0;
@@ -199,7 +202,6 @@ gapi.hangout.onApiReady.add(function(eventObj) {
   state.sq1c = '';
   state.sq2c = '';
   state.sq3c = '';
-
 
 /*
   // Increment a variable. Gets value from shared data object, converts string to number, increments number, converts to string, update shared data object.
@@ -256,6 +258,7 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq1a = 'x';
 
       // Increment Row 1
+      console.log(gapi.hangout.data.getValue('row1x'));
       i = gapi.hangout.data.getValue('row1x');
       i = +i;
       i = i + 1;
@@ -292,25 +295,25 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq1a = 'o';
 
       // Increment Row 1
-      i = state.row1o;
+      i = gapi.hangout.data.getValue('row1o');
       i = +i;
       i = i + 1;
       state.row1o = i.toString();
 
       // Increment Column A
-      i = state.columnAo;
+      i = gapi.hangout.data.getValue('columnAo');
       i = +i;
       i = i + 1;
       state.columnAo = i.toString();
 
       // Increment Diagional 1
-      i = state.diagonal1o;
+      i = gapi.hangout.data.getValue('diagonal1o');
       i = +i;
       i = i + 1;
       state.diagonal1o = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -334,19 +337,19 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq1b = 'x';
 
       // Increment Row 1
-      i = state.row1x;
+      i = gapi.hangout.data.getValue('row1x');
       i = +i;
       i = i + 1;
       state.row1x = i.toString();
 
       // Increment Column B
-      i = state.columnBx;
+      i = gapi.hangout.data.getValue('columnBx');
       i = +i;
       i = i + 1;
       state.columnBx = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -363,19 +366,19 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq1b = 'o';
 
       // Increment Row 1
-      i = state.row1o;
+      i = gapi.hangout.data.getValue('row1o');
       i = +i;
       i = i + 1;
       state.row1o = i.toString();
 
       // Increment Column B
-      i = state.columnBo;
+      i = gapi.hangout.data.getValue('columnBo');
       i = +i;
       i = i + 1;
       state.columnBo = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -398,25 +401,25 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq1c = 'x';
 
       // Increment Row 1
-      i = state.row1x;
+      i = gapi.hangout.data.getValue('row1x');
       i = +i;
       i = i + 1;
       state.row1x = i.toString();
 
       // Increment Column C
-      i = state.columnCx;
+      i = gapi.hangout.data.getValue('columnCx');
       i = +i;
       i = i + 1;
       state.columnCx = i.toString();
 
       // Increment Diagional 2
-      i = state.diagonal2x;
+      i = gapi.hangout.data.getValue('diagonal2x');
       i = +i;
       i = i + 1;
       state.diagonal2x = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -434,25 +437,25 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq1c = 'o';
 
       // Increment Row 1
-      i = state.row1o;
+      i = gapi.hangout.data.getValue('row1o');
       i = +i;
       i = i + 1;
       state.row1o = i.toString();
 
       // Increment Column C
-      i = state.columnCo;
+      i = gapi.hangout.data.getValue('columnCo');
       i = +i;
       i = i + 1;
       state.columnCo = i.toString();
 
       // Increment Diagional 2
-      i = state.diagonal2o;
+      i = gapi.hangout.data.getValue('diagonal2o');
       i = +i;
       i = i + 1;
       state.diagonal2o = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -476,19 +479,19 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq2a = 'x';
 
       // Increment Row 2
-      i = state.row2x;
+      i = gapi.hangout.data.getValue('row2x');
       i = +i;
       i = i + 1;
       state.row2x = i.toString();
 
       // Increment Column A
-      i = state.columnAx;
+      i = gapi.hangout.data.getValue('columnAx');
       i = +i;
       i = i + 1;
       state.columnAx = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -505,19 +508,19 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq2a = 'o';
 
       // Increment Row 2
-      i = state.row2o;
+      i = gapi.hangout.data.getValue('row2o');
       i = +i;
       i = i + 1;
       state.row2o = i.toString();
 
       // Increment Column A
-      i = state.columnAo;
+      i = gapi.hangout.data.getValue('columnAo');
       i = +i;
       i = i + 1;
       state.columnAo = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -539,31 +542,31 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq2b = 'x';
 
       // Increment Row 2
-      i = state.row2x;
+      i = gapi.hangout.data.getValue('row2x');
       i = +i;
       i = i + 1;
       state.row2x = i.toString();
 
       // Increment Column B
-      i = state.columnBx;
+      i = gapi.hangout.data.getValue('columnBx');
       i = +i;
       i = i + 1;
       state.columnBx = i.toString();
 
       // Increment Diagional 1
-      i = state.diagonal1x;
+      i = gapi.hangout.data.getValue('diagonal1x');
       i = +i;
       i = i + 1;
       state.diagonal1x = i.toString();
 
       // Increment Diagional 2
-      i = state.diagonal2x;
+      i = gapi.hangout.data.getValue('diagonal2x');
       i = +i;
       i = i + 1;
       state.diagonal2x = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -582,31 +585,31 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq2b = 'o';
 
       // Increment Row 2
-      i = state.row2o;
+      i = gapi.hangout.data.getValue('row2o');
       i = +i;
       i = i + 1;
       state.row2o = i.toString();
 
       // Increment Column B
-      i = state.columnBo;
+      i = gapi.hangout.data.getValue('columnBo');
       i = +i;
       i = i + 1;
       state.columnBo = i.toString();
 
       // Increment Diagional 1
-      i = state.diagonal1o;
+      i = gapi.hangout.data.getValue('diagonal1o');
       i = +i;
       i = i + 1;
       state.diagonal1o = i.toString();
 
       // Increment Diagional 2
-      i = state.diagonal2o;
+      i = gapi.hangout.data.getValue('diagonal2o');
       i = +i;
       i = i + 1;
       state.diagonal2o = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -631,19 +634,19 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq2c = 'x';
 
       // Increment Row 2
-      i = state.row2x;
+      i = gapi.hangout.data.getValue('row2x');
       i = +i;
       i = i + 1;
       state.row2x = i.toString();
 
       // Increment Column C
-      i = state.columnCx;
+      i = gapi.hangout.data.getValue('columnCx');
       i = +i;
       i = i + 1;
       state.columnCx = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -660,19 +663,19 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq2c = 'o';
 
       // Increment Row 2
-      i = state.row2o;
+      i = gapi.hangout.data.getValue('row2o');
       i = +i;
       i = i + 1;
       state.row2o = i.toString();
 
       // Increment Column C
-      i = state.columnCo;
+      i = gapi.hangout.data.getValue('columnCo');
       i = +i;
       i = i + 1;
       state.columnCo = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -694,25 +697,25 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq3a = 'x';
 
       // Increment Row 3
-      i = state.row3x;
+      i = gapi.hangout.data.getValue('row3x');
       i = +i;
       i = i + 1;
       state.row3x = i.toString();
 
       // Increment Column A
-      i = state.columnAx;
+      i = gapi.hangout.data.getValue('columnAx');
       i = +i;
       i = i + 1;
       state.columnAx = i.toString();
 
       // Increment Diagonal 2
-      i = state.diagonal2x;
+      i = gapi.hangout.data.getValue('diagonal2x');
       i = +i;
       i = i + 1;
       state.diagonal2x = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -730,25 +733,25 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq3a = 'o';
 
       // Increment Row 3
-      i = state.row3o;
+      i = gapi.hangout.data.getValue('row3o');
       i = +i;
       i = i + 1;
       state.row3o = i.toString();
 
       // Increment Column A
-      i = state.columnAo;
+      i = gapi.hangout.data.getValue('columnAo');
       i = +i;
       i = i + 1;
       state.columnAo = i.toString();
 
       // Increment Diagonal 2
-      i = state.diagonal2o;
+      i = gapi.hangout.data.getValue('diagonal2o');
       i = +i;
       i = i + 1;
       state.diagonal2o = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -772,19 +775,19 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq3b = 'x';
 
       // Increment Row 3
-      i = state.row3x;
+      i = gapi.hangout.data.getValue('row3x');
       i = +i;
       i = i + 1;
       state.row3x = i.toString();
 
       // Increment Column B
-      i = state.columnBx;
+      i = gapi.hangout.data.getValue('columnBx');
       i = +i;
       i = i + 1;
       state.columnBx = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -801,19 +804,19 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq3b = 'o';
 
       // Increment Row 3
-      i = state.row3o;
+      i = gapi.hangout.data.getValue('row3o');
       i = +i;
       i = i + 1;
       state.row3o = i.toString();
 
       // Increment Column B
-      i = state.columnBo;
+      i = gapi.hangout.data.getValue('columnBo');
       i = +i;
       i = i + 1;
       state.columnBo = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -835,25 +838,25 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // state.sq3c = 'x';
 
       // Increment Row 3
-      i = state.row3x;
+      i = gapi.hangout.data.getValue('row3x');
       i = +i;
       i = i + 1;
       state.row3x = i.toString();
 
       // Increment Column C
-      i = state.columnCx;
+      i = gapi.hangout.data.getValue('columnCx');
       i = +i;
       i = i + 1;
       state.columnCx = i.toString();
 
       // Increment Diagonal 1
-      i = state.diagonal1x;
+      i = gapi.hangout.data.getValue('diagonal1x');
       i = +i;
       i = i + 1;
       state.diagonal1x = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -871,25 +874,25 @@ gapi.hangout.onApiReady.add(function(eventObj) {
       // sq3c.innerHTML = 'o'; // draw O in SQR3C
 
       // Increment Row 3
-      i = state.row3o;
+      i = gapi.hangout.data.getValue('row3o');
       i = +i;
       i = i + 1;
       state.row3o = i.toString();
 
       // Increment Column C
-      i = state.columnCo;
+      i = gapi.hangout.data.getValue('columnCo');
       i = +i;
       i = i + 1;
       state.columnCo = i.toString();
 
       // Increment Diagonal 1
-      i = state.diagonal1o;
+      i = gapi.hangout.data.getValue('diagonal1o');
       i = +i;
       i = i + 1;
       state.diagonal1o = i.toString();
 
       // Increment counter
-      i = state.counter;
+      i = gapi.hangout.data.getValue('counter');
       i = +i;
       i = i + 1;
       state.counter = i.toString();
@@ -921,33 +924,59 @@ gapi.hangout.onApiReady.add(function(eventObj) {
     sq3c.innerHTML = gapi.hangout.data.getValue('sq3c');
 
     console.log("SQR 1A: " + gapi.hangout.data.getValue('sq1a'));
+    console.log("SQR 1A: " + state.sq1a);
     console.log("SQR 1B: " + gapi.hangout.data.getValue('sq1b'));
+    console.log("SQR 1B: " + state.sq1b);
     console.log("SQR 1C: " + gapi.hangout.data.getValue('sq1c'));
+    console.log("SQR 1C: " + state.sq1c);
     console.log("SQR 2A: " + gapi.hangout.data.getValue('sq2a'));
+    console.log("SQR 2A: " + state.sq2a);
     console.log("SQR 2B: " + gapi.hangout.data.getValue('sq2b'));
+    console.log("SQR 2B: " + state.sq2b);
     console.log("SQR 2C: " + gapi.hangout.data.getValue('sq2c'));
+    console.log("SQR 2C: " + state.sq2c);
     console.log("SQR 3A: " + gapi.hangout.data.getValue('sq3a'));
+    console.log("SQR 3A: " + state.sq3a);
     console.log("SQR 3B: " + gapi.hangout.data.getValue('sq3b'));
+    console.log("SQR 3B: " + state.sq3b);
     console.log("SQR 3C: " + gapi.hangout.data.getValue('sq3c'));
+    console.log("SQR 3C: " + state.sq3c);
 
+    console.log("Row1x: " + gapi.hangout.data.getValue('row1x'));
     console.log("Row1x: " + state.row1x);
+    console.log("Row2x: " + gapi.hangout.data.getValue('row2x'));
     console.log("Row2x: " + state.row2x);
+    console.log("Row3x: " + gapi.hangout.data.getValue('row3x'));
     console.log("Row3x: " + state.row3x);
+    console.log("Column Ax: " + gapi.hangout.data.getValue('columnAx'));
     console.log("Column Ax: " + state.columnAx);
+    console.log("Column Bx: " + gapi.hangout.data.getValue('columnBx'));
     console.log("Column Bx: " + state.columnBx);
+    console.log("Column Cx: " + gapi.hangout.data.getValue('columnCx'));
     console.log("Column Cx: " + state.columnCx);
+    console.log("Diagonal 1x: " + gapi.hangout.data.getValue('diagonal1x'));
     console.log("Diagonal 1x: " + state.diagonal1x);
+    console.log("Diagonal 2x: " + gapi.hangout.data.getValue('diagonal2x'));
     console.log("Diagonal 2x: " + state.diagonal2x);
 
+    console.log("Row1o: " + gapi.hangout.data.getValue('row1o'));
     console.log("Row1o: " + state.row1o);
+    console.log("Row2o: " + gapi.hangout.data.getValue('row2o'));
     console.log("Row2o: " + state.row2o);
+    console.log("Row3o: " + gapi.hangout.data.getValue('row3o'));
     console.log("Row3o: " + state.row3o);
+    console.log("Column Ao: " + gapi.hangout.data.getValue('ColumnAo'));
     console.log("Column Ao: " + state.columnAo);
+    console.log("Column Bo: " + gapi.hangout.data.getValue('ColumnBo'));
     console.log("Column Bo: " + state.columnBo);
+    console.log("Column Co: " + gapi.hangout.data.getValue('Column`Co'));
     console.log("Column Co: " + state.columnCo);
+    console.log("Diagonal 1o: " + gapi.hangout.data.getValue('diagonal1o'));
     console.log("Diagonal 1o: " + state.diagonal1o);
+    console.log("Diagonal 2o: " + gapi.hangout.data.getValue('diagonal2o'));
     console.log("Diagonal 2o: " + state.diagonal2o);
 
+    console.log("Counter: " + gapi.hangout.data.getValue('counter'));
     console.log("Counter: " + state.counter);
 
     // CHECK FOR WINNERS
@@ -957,7 +986,7 @@ gapi.hangout.onApiReady.add(function(eventObj) {
 
   // EXECUTE CODE TO PASS TURN TO OTHER PLAYER
 
-  console.log("v0.21");
+  console.log("v0.22");
 
 }); // end tic-tac-toe script
 
