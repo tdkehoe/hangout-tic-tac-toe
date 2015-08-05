@@ -9,18 +9,97 @@
 <html>
 <body>
 <script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
-<h3>Counter Zero To One</h3>
+
+	<h3>Counter Zero To Four</h3>
+
+	<span id="clear">
+	    <button type="submit">Clear</button>
+	</span>
+
+	<span>&nbsp;</span>
+
+	<span id="count">
+			<button type="submit">Count</button>
+	</span>
+
+	<p id="displayCounter"> </p>
+
 <script>
 
   gapi.hangout.onApiReady.add(function(eventObj) {
   	console.log("API ready.");
+		displayCounter = document.getElementById("displayCounter");
 
-		gapi.hangout.data.setValue('counter', '0');
+		var displayCount;
 
-		gapi.hangout.data.onStateChanged.add(function(event) {
-			console.log(gapi.hangout.data.getValue('counter'));
-			gapi.hangout.data.setValue('counter', '1');
+		document.getElementById("clear").addEventListener('click', function () {
+			console.log("Clear clicked");
+			gapi.hangout.data.clearValue('counter');
+			displayCounter.innerHTML = "Ready";
 		});
+
+		document.getElementById("count").addEventListener('click', function () {
+			console.log("Count clicked");
+
+			var p0 = new Promise(function(resolve,reject){
+			  gapi.hangout.data.setValue('counter', '0');
+				gapi.hangout.data.onStateChanged.add(function(event) {
+					console.log(gapi.hangout.data.getValue('counter'));
+					displayCount = gapi.hangout.data.getValue('counter') + "<br>";
+					displayCounter.innerHTML = displayCount;
+					resolve();
+				});
+			});
+
+			var p1 = p0.then(function(counter){
+			  var p1 = new Promise(function(resolve,reject) {
+			    gapi.hangout.data.setValue('counter', '1');
+					gapi.hangout.data.onStateChanged.add(function(event) {
+						console.log(gapi.hangout.data.getValue('counter'));
+						displayCount += gapi.hangout.data.getValue('counter') + "<br>";
+						displayCounter.innerHTML = displayCount;
+						resolve();
+					});
+			  });
+			});
+
+			var p2 = p1.then(function(counter){
+			  var p2 = new Promise(function(resolve,reject) {
+			    gapi.hangout.data.setValue('counter', '2');
+					gapi.hangout.data.onStateChanged.add(function(event) {
+						console.log(gapi.hangout.data.getValue('counter'));
+						displayCount += gapi.hangout.data.getValue('counter') + "<br>";
+						displayCounter.innerHTML = displayCount;
+						resolve();
+					});
+			  });
+			});
+
+			var p3 = p2.then(function(counter){
+				var p3 = new Promise(function(resolve,reject) {
+					gapi.hangout.data.setValue('counter', '3');
+					gapi.hangout.data.onStateChanged.add(function(event) {
+						console.log(gapi.hangout.data.getValue('counter'));
+						displayCount += gapi.hangout.data.getValue('counter') + "<br>";
+						displayCounter.innerHTML = displayCount;
+						resolve();
+					});
+				});
+			});
+
+			var p4 = p3.then(function(counter){
+				var p4 = new Promise(function(resolve,reject) {
+					gapi.hangout.data.setValue('counter', '4');
+					gapi.hangout.data.onStateChanged.add(function(event) {
+						console.log(gapi.hangout.data.getValue('counter'));
+						displayCount += gapi.hangout.data.getValue('counter') + "<br>";
+						displayCounter.innerHTML = displayCount;
+						resolve();
+					});
+				});
+			});
+
+		}); // close count button
 
 	});
 
